@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:63306/INFORMATION_SCHEMA?characterEncoding=UTF-8&useServerPrepStmts=true&useSSL=false&currentSchema=INFORMATION_SCHEMA
+    username: slave
+    password: slave
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: false
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+data-column:
+  settingMap:
+    default: String
+    booleanColumn: tinyint(1)
+
+data-column-map:
+#  default: Stringsss
+#  booleanColumn: tinyint
+  columnMap:
+    varchar: String
+    bigint: Long
+    tinyint: Int
+    int: Int
+    date: LocalDate
