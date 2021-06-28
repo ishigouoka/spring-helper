@@ -3,11 +3,11 @@ package com.springhelper.domain.helper
 object StringHelper {
 
     fun toUpperCamelCase(arg: String): String {
-        return arg.toCamelCase().beginWithUpperCase()
+        return arg.lowercase().toCamelCase().beginWithUpperCase()
     }
 
     fun toLowerCamelCase(arg: String): String {
-        return arg.toCamelCase().beginWithLowerCase()
+        return arg.lowercase().toCamelCase().beginWithLowerCase()
     }
 
     fun toUpperSnakeCase(arg: String): String {

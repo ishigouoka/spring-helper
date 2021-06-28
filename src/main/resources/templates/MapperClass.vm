@@ -1,0 +1,27 @@
+#if(${packageName})package ${packageName}#{end}
+
+import ${recordPackageName}.${recordClassName}
+import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Select
+
+@Mapper
+internal interface ${camelCaseTableName}${classSuffix} {
+
+    companion object {
+        private const val SELECT_COLUMNS = """
+#foreach($column in $columns)           `${column.columnName}`#if($velocityCount != ${columns.size()}),#{end}${newline}#end
+        """
+    }
+
+    @Select("""
+        SELECT
+            $SELECT_COLUMNS
+        FROM `${tableName}`
+        WHERE
+#foreach($column in $columns)#if(${column.primaryKey})            ${column.columnName} = ${bindPrefix}${column.camelCaseColumnName}${bindSuffix}${newline}#{end}#{end}
+    """)
+    fun findById(
+    #foreach($column in $columns)#if(${column.primaryKey})    ${column.camelCaseColumnName}: ${column.objectType}${newline}#{end}#{end}
+    ): List<${recordClassName}>
+}
+

@@ -11,17 +11,69 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
-data-column:
-  settingMap:
-    default: String
-    booleanColumn: tinyint(1)
+spring-helper:
+  export-path: ./output
+  is-create-record: true
+  is-create-mapper: true
+  is-create-entity: true
+  is-create-query: true
+  is-create-repository: true
 
-data-column-map:
-#  default: Stringsss
-#  booleanColumn: tinyint
-  columnMap:
-    varchar: String
-    bigint: Long
-    tinyint: Int
-    int: Int
-    date: LocalDate
+database-properties:
+  schema:
+    name: slave
+    exclude-tables:
+      - flyway_schema_history
+  data-column:
+    default: String
+    boolean-column: tinyint(1)
+    generate-key: auto_increment
+    primary-key: PRI
+    column-map:
+      varchar: String
+      bigint: Long
+      tinyint: Int
+      int: Int
+      date: LocalDate
+    enum-map:
+      TRANSACTION_TYPE: TransactionType
+      SEX: Sex
+      AGREEMENT_TYPE: AgreementType
+      EXPERIENCE_POINT: ExperiencePoint
+
+export-class:
+  record-class:
+    template-path: templates/RecordClass.vm
+    encoding: UTF-8
+    suffix: Record
+    extension: .kt
+    package-name: com.hoge
+    export-path: /record
+  mapper-class:
+    template-path: templates/MapperClass.vm
+    encoding: UTF-8
+    suffix: Mapper
+    extension: .kt
+    package-name: com.hoge
+    export-path:
+  entity-class:
+    template-path: templates/EntityClass.vm
+    encoding: UTF-8
+    suffix:
+    extension: .kt
+    package-name: com.hoge.entity
+    export-path: /entity
+  query-interface:
+    template-path: templates/QueryInterface.vm
+    encoding: UTF-8
+    suffix: Query
+    extension: .kt
+    package-name: com.hoge.query
+    export-path: /query
+  repository-interface:
+    template-path: templates/RepositoryInterface.vm
+    encoding: UTF-8
+    suffix: Repository
+    extension: .kt
+    package-name: com.hoge.repository
+    export-path: /repository

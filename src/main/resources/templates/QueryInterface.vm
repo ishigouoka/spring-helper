@@ -1,0 +1,13 @@
+#if(${packageName})package ${packageName}#{end}
+
+
+import ${entityPackageName}.${entityClassName}
+import org.springframework.stereotype.Component
+
+@Component
+interface ${camelCaseTableName}${classSuffix} {
+
+    fun get${camelCaseTableName}(
+#foreach($column in $columns)#if(${column.primaryKey})        ${column.camelCaseColumnName}: ${column.objectType}${newline}#{end}#{end}
+    ): ${entityClassName}
+}

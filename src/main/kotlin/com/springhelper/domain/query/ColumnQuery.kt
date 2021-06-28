@@ -1,19 +1,11 @@
 package com.springhelper.domain.query
 
-import com.springhelper.domain.config.DataColumnMapConfig
-import com.springhelper.domain.config.HogeConfig
-import com.springhelper.domain.entity.Column
+import com.springhelper.domain.entity.MySqlColumn
+import com.springhelper.domain.property.DataColumnProperties
 
 interface ColumnQuery {
-    fun getColumnsByTableName(
-        tableName: String,
-        dataColumnMapConfig: DataColumnMapConfig,
-        hogeConfig: HogeConfig
-    ): List<Column>
-
     fun getColumnsBySchemaName(
         schema: String,
-        dataColumnMapConfig: DataColumnMapConfig,
-        hogeConfig: HogeConfig
-    ): List<Column>
+        dataColumnProperties: DataColumnProperties
+    ): List<MySqlColumn>
 }

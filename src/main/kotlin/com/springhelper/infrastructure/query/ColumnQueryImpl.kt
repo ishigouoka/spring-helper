@@ -1,31 +1,26 @@
 package com.springhelper.infrastructure.query
 
-import com.springhelper.domain.config.DataColumnMapConfig
-import com.springhelper.domain.config.HogeConfig
-import com.springhelper.domain.entity.Column
+import com.springhelper.domain.entity.MySqlColumn
+import com.springhelper.domain.property.DataColumnProperties
+import com.springhelper.domain.property.SchemaProperties
 import com.springhelper.domain.query.ColumnQuery
-import com.springhelper.infrastructure.mapper.ColumnMapper
+import com.springhelper.infrastructure.mapper.MySqlColumnMapper
 import org.springframework.stereotype.Component
 
 @Component
 internal class ColumnQueryImpl(
-    private val columnMapper: ColumnMapper
+    private val schemaProperties: SchemaProperties,
+    private val mySqlColumnMapper: MySqlColumnMapper
 ) : ColumnQuery {
-
-    override fun getColumnsByTableName(
-        tableName: String,
-        dataColumnMapConfig: DataColumnMapConfig,
-        hogeConfig: HogeConfig
-    ): List<Column> {
-        return columnMapper.findByTableName(tableName).map { it.toEntity(dataColumnMapConfig, hogeConfig) }
-    }
 
     override fun getColumnsBySchemaName(
         schema: String,
-        dataColumnMapConfig: DataColumnMapConfig,
-        hogeConfig: HogeConfig
-    ): List<Column> {
-        return columnMapper.findByTableSchema(schema).map { it.toEntity(dataColumnMapConfig, hogeConfig) }
+        dataColumnProperties: DataColumnProperties
+    ): List<MySqlColumn> {
+        return mySqlColumnMapper.findByTableSchema(
+            schema = schema,
+            excludeTables = schemaProperties.excludeTables
+        ).map { it.toEntity(dataColumnProperties) }
     }
 }
 

@@ -1,0 +1,18 @@
+#if(${packageName})package ${packageName}#{end}
+
+
+internal data class ${table}${classSuffix}(
+#foreach
+($column in $columns)   val ${column.camelCaseColumnName}: ${column.objectType}#if(${column.nullable})?#{end}#if(${column.generateKey}) = -1#{end}#if($velocityCount != ${columns.size()}),#{end}
+
+#end
+) {
+
+    fun toEntity() = ${entityClassName}(
+#foreach
+($column in $columns)       ${column.camelCaseColumnName} = ${column.camelCaseColumnName}#if($velocityCount != ${columns.size()}),#{end}
+
+#end
+    )
+}
+

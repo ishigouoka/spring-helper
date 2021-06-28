@@ -1,0 +1,10 @@
+#if(${packageName})package ${packageName}#{end}
+
+
+import ${entityPackageName}.${entityClassName}
+import org.springframework.stereotype.Repository
+
+@Repository
+interface ${camelCaseTableName}${classSuffix} {
+
+}

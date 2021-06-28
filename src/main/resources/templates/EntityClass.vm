@@ -1,0 +1,9 @@
+#if(${packageName})package ${packageName}#{end}
+
+
+data class ${table}(
+#foreach($column in $columns)
+    val ${column.camelCaseColumnName}: ${column.objectType}#if(${column.nullable})?#{end}#if($velocityCount != ${columns.size()}),#{end}
+
+#end
+)

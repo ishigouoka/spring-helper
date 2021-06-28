@@ -1,9 +1,0 @@
-
-internal data class ${table}Record(
-
-    #foreach($column in $columns)
-    val ${column.columnName}: ${column.objectType}#if(${column.nullable})bbb #else? #end
-
-    #end
-) {
-}
