@@ -1,5 +1,7 @@
 package com.springhelper.domain.helper
 
+import java.util.*
+
 object StringHelper {
 
     fun toUpperCamelCase(arg: String): String {
@@ -21,16 +23,16 @@ object StringHelper {
     private fun String.beginWithLowerCase(): String {
         return when (this.length) {
             0 -> ""
-            1 -> this.toLowerCase()
-            else -> this[0].toLowerCase() + this.substring(1)
+            1 -> this.lowercase(Locale.getDefault())
+            else -> this[0].lowercaseChar() + this.substring(1)
         }
     }
 
     private fun String.beginWithUpperCase(): String {
         return when (this.length) {
             0 -> ""
-            1 -> this.toUpperCase()
-            else -> this[0].toUpperCase() + this.substring(1)
+            1 -> this.uppercase(Locale.getDefault())
+            else -> this[0].uppercaseChar() + this.substring(1)
         }
     }
 
@@ -46,7 +48,7 @@ object StringHelper {
             if (it.isUpperCase()) {
                 if (isFirst) isFirst = false
                 else text += "_"
-                text += it.toLowerCase()
+                text += it.lowercaseChar()
             } else {
                 text += it
             }

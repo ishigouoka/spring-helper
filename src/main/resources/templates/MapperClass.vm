@@ -9,14 +9,14 @@ internal interface ${camelCaseTableName}${classSuffix} {
 
     companion object {
         private const val SELECT_COLUMNS = """
-#foreach($column in $columns)           `${column.columnName}`#if($velocityCount != ${columns.size()}),#{end}${newline}#end
+#foreach($column in $columns)           ${column.columnName}#if($velocityCount != ${columns.size()}),#{end}${newline}#end
         """
     }
 
     @Select("""
         SELECT
             $SELECT_COLUMNS
-        FROM `${tableName}`
+        FROM ${tableName}
         WHERE
 #foreach($column in $columns)#if(${column.primaryKey})            ${column.columnName} = ${bindPrefix}${column.camelCaseColumnName}${bindSuffix}${newline}#{end}#{end}
     """)

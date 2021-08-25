@@ -1,11 +1,10 @@
 package com.springhelper.domain.query
 
-import com.springhelper.domain.entity.MySqlColumn
+import com.springhelper.domain.entity.Column
 import com.springhelper.domain.property.DataColumnProperties
 
 interface ColumnQuery {
-    fun getColumnsBySchemaName(
-        schema: String,
-        dataColumnProperties: DataColumnProperties
-    ): List<MySqlColumn>
+    fun getMysqlColumnsBySchemaName(): List<Column>
+
+    fun getPostgresColumnsBySchemaName(): List<Column>
 }

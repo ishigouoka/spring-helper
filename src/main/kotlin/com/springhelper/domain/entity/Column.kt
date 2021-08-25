@@ -1,6 +1,6 @@
 package com.springhelper.domain.entity
 
-data class MySqlColumn(
+data class Column(
     val tableName: String,
     val columnName: String,
     val camelCaseColumnName: String,

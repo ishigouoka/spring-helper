@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:15432/kaikei?characterEncoding=UTF-8&useServerPrepStmts=true&useSSL=false&currentSchema=public
+    username: kaikei
+    password: kaikei
+    driver-class-name: org.postgresql.Driver
+
+env:
+  dbms: POSTGRES
+
+database-properties:
+  data-column:
+    default: String
+    boolean-column: bool
+    generate-key: auto_increment
+    primary-key: PRIMARY KEY
+    column-map:
+      bpcchar: String
+      varchar: String
+      text: String
+      int8: Long
+      int4: Int
+      int2: Int
+      date: LocalDate
+      timestamp: LocalDateTime
+    enum-map:
+      TRANSACTION_TYPE: TransactionType
+      SEX: Sex
+      AGREEMENT_TYPE: AgreementType
+      EXPERIENCE_POINT: ExperiencePoint
+  schema:
+    catalog-name: kaikei
+    schema-name: public
+    exclude-tables:
+      - flyway_schema_history

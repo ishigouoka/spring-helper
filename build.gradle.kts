@@ -28,7 +28,6 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
 
-
 	// https://mvnrepository.com/artifact/commons-cli/commons-cli
 	implementation("commons-cli", "commons-cli", "1.4")
 	implementation("org.apache.velocity", "velocity", "1.7")

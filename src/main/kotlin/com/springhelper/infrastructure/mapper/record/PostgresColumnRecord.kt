@@ -4,14 +4,14 @@ import com.springhelper.domain.entity.Column
 import com.springhelper.domain.helper.StringHelper
 import com.springhelper.domain.property.DataColumnProperties
 
-internal data class MySqlColumnRecord(
+internal data class PostgresColumnRecord(
     val tableName: String,
     val columnName: String,
     val dataType: String,
     val columnType: String,
     val isNullable: String,
     val columnKey: String?,
-    val extra: String?
+    val columnDefault: String?
 ) {
 
     fun toEntity(
@@ -28,14 +28,14 @@ internal data class MySqlColumnRecord(
                 dataColumnProperties = dataColumnProperties
             ),
             isPrimaryKey = isPrimaryKey(dataColumnProperties = dataColumnProperties),
-            isGenerateKey = isGenerateKey(dataColumnProperties = dataColumnProperties)
+            isGenerateKey = isGenerateKey()
         )
     }
 
     private fun toObjectType(
         dataColumnProperties: DataColumnProperties,
     ): String {
-        return if (dataColumnProperties.booleanColumn == columnType) {
+        return if (dataColumnProperties.booleanColumn == dataType) {
             "Boolean"
         } else {
             dataColumnProperties.enumMap[columnName]?.let {
@@ -52,10 +52,8 @@ internal data class MySqlColumnRecord(
         return (dataColumnProperties.primaryKey == columnKey)
     }
 
-    private fun isGenerateKey(
-        dataColumnProperties: DataColumnProperties
-    ): Boolean {
-        return (dataColumnProperties.generateKey == extra)
+    private fun isGenerateKey(): Boolean {
+        return (columnDefault?.startsWith("nextval")?:false)
     }
 
     private fun isNullable(

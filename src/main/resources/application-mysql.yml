@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:63306/INFORMATION_SCHEMA?characterEncoding=UTF-8&useServerPrepStmts=true&useSSL=false&currentSchema=INFORMATION_SCHEMA
+    username: slave
+    password: slave
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+env:
+  dbms: MYSQL
+
+database-properties:
+  data-column:
+    default: String
+    boolean-column: tinyint(1)
+    generate-key: auto_increment
+    primary-key: PRI
+    column-map:
+      character: String
+      character varying: String
+      text: String
+      bigint: Long
+      tinyint: Int
+      int: Int
+      date: LocalDate
+    enum-map:
+      TRANSACTION_TYPE: TransactionType
+      SEX: Sex
+      AGREEMENT_TYPE: AgreementType
+      EXPERIENCE_POINT: ExperiencePoint
+  schema:
+    schema-name: slave
+    exclude-tables:
+      - flyway_schema_history

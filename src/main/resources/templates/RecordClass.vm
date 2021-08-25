@@ -1,6 +1,9 @@
 #if(${packageName})package ${packageName}#{end}
 
 
+import ${entityPackageName}.${entityClassName}
+
+
 internal data class ${table}${classSuffix}(
 #foreach
 ($column in $columns)   val ${column.camelCaseColumnName}: ${column.objectType}#if(${column.nullable})?#{end}#if(${column.generateKey}) = -1#{end}#if($velocityCount != ${columns.size()}),#{end}

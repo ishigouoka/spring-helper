@@ -13,6 +13,14 @@ internal interface TableMapper {
         FROM `TABLES` 
         WHERE `TABLE_SCHEMA` = #{schema}
     """)
-    fun findByTableSchema(schema: String): List<TableRecord>
+    fun findByMysqlTableSchema(schema: String): List<TableRecord>
+
+    @Select("""
+        SELECT
+            tablename as table_name
+        FROM pg_tables 
+        WHERE schemaname = #{schema}
+    """)
+    fun findByPostgresTableSchema(schema: String): List<TableRecord>
 }
 
