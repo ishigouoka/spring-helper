@@ -6,15 +6,27 @@ import com.springhelper.domain.property.ExportClassProperties
 import com.springhelper.domain.property.SpringHelperProperties
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.VelocityEngine
+import org.slf4j.Logger
 import org.springframework.stereotype.Service
 import java.io.File
 import java.io.StringWriter
+import java.net.URI
+import java.nio.file.Files
+import java.nio.file.Path
 
 @Service
 class ColumnService(
     val springHelperProperties: SpringHelperProperties,
-    val exportClassProperties: ExportClassProperties
+    val exportClassProperties: ExportClassProperties,
+    val logger: Logger
 ) {
+
+    fun clearOutputPath() {
+        logger.info("Clear Directory. Path=[{}]", springHelperProperties.exportPath)
+        val outputDirectory = File(springHelperProperties.exportPath)
+        File(springHelperProperties.exportPath).deleteRecursively()
+        Files.createDirectory(Path.of(springHelperProperties.exportPath))
+    }
 
     fun createRecordClass(
         tableName: String,
@@ -31,10 +43,19 @@ class ColumnService(
         context.put("entityClassName", "${camelCaseTableName}${exportClassProperties.entityClass.suffix}")
 
         val writer = StringWriter()
-        velocityEngine.mergeTemplate(exportClassProperties.recordClass.templatePath, exportClassProperties.recordClass.encoding, context, writer)
+        velocityEngine.mergeTemplate(
+            exportClassProperties.recordClass.templatePath,
+            exportClassProperties.recordClass.encoding,
+            context,
+            writer
+        )
 
         val outputPath = "${springHelperProperties.exportPath}${exportClassProperties.recordClass.exportPath}"
-        val file = File("${outputPath}/${camelCaseTableName}${exportClassProperties.recordClass.suffix}${exportClassProperties.recordClass.extension}")
+        if (!File(outputPath).exists()) {
+            Files.createDirectory(Path.of(outputPath))
+        }
+        val file =
+            File("${outputPath}/${camelCaseTableName}${exportClassProperties.recordClass.suffix}${exportClassProperties.recordClass.extension}")
         file.writeText(writer.toString())
         writer.close()
     }
@@ -56,10 +77,19 @@ class ColumnService(
         context.put("recordClassName", "${camelCaseTableName}${exportClassProperties.recordClass.suffix}")
 
         val writer = StringWriter()
-        velocityEngine.mergeTemplate(exportClassProperties.mapperClass.templatePath, exportClassProperties.mapperClass.encoding, context, writer)
+        velocityEngine.mergeTemplate(
+            exportClassProperties.mapperClass.templatePath,
+            exportClassProperties.mapperClass.encoding,
+            context,
+            writer
+        )
 
         val outputPath = "${springHelperProperties.exportPath}${exportClassProperties.mapperClass.exportPath}"
-        val file = File("${outputPath}/${camelCaseTableName}${exportClassProperties.mapperClass.suffix}${exportClassProperties.mapperClass.extension}")
+        if (!File(outputPath).exists()) {
+            Files.createDirectory(Path.of(outputPath))
+        }
+        val file =
+            File("${outputPath}/${camelCaseTableName}${exportClassProperties.mapperClass.suffix}${exportClassProperties.mapperClass.extension}")
         file.writeText(writer.toString())
         writer.close()
     }
@@ -77,10 +107,19 @@ class ColumnService(
         context.put("classSuffix", exportClassProperties.entityClass.suffix)
 
         val writer = StringWriter()
-        velocityEngine.mergeTemplate(exportClassProperties.entityClass.templatePath, exportClassProperties.entityClass.encoding, context, writer)
+        velocityEngine.mergeTemplate(
+            exportClassProperties.entityClass.templatePath,
+            exportClassProperties.entityClass.encoding,
+            context,
+            writer
+        )
 
         val outputPath = "${springHelperProperties.exportPath}${exportClassProperties.entityClass.exportPath}"
-        val file = File("${outputPath}/${camelCaseTableName}${exportClassProperties.entityClass.suffix}${exportClassProperties.entityClass.extension}")
+        if (!File(outputPath).exists()) {
+            Files.createDirectory(Path.of(outputPath))
+        }
+        val file =
+            File("${outputPath}/${camelCaseTableName}${exportClassProperties.entityClass.suffix}${exportClassProperties.entityClass.extension}")
         file.writeText(writer.toString())
         writer.close()
     }
@@ -99,13 +138,25 @@ class ColumnService(
         context.put("classSuffix", exportClassProperties.queryInterface.suffix)
 
         context.put("entityPackageName", exportClassProperties.entityClass.packageName)
-        context.put("entityClassName", "${StringHelper.toUpperCamelCase(tableName)}${exportClassProperties.entityClass.suffix}")
+        context.put(
+            "entityClassName",
+            "${StringHelper.toUpperCamelCase(tableName)}${exportClassProperties.entityClass.suffix}"
+        )
 
         val writer = StringWriter()
-        velocityEngine.mergeTemplate(exportClassProperties.queryInterface.templatePath, exportClassProperties.queryInterface.encoding, context, writer)
+        velocityEngine.mergeTemplate(
+            exportClassProperties.queryInterface.templatePath,
+            exportClassProperties.queryInterface.encoding,
+            context,
+            writer
+        )
 
         val outputPath = "${springHelperProperties.exportPath}${exportClassProperties.queryInterface.exportPath}"
-        val file = File("${outputPath}/${camelCaseTableName}${exportClassProperties.queryInterface.suffix}${exportClassProperties.queryInterface.extension}")
+        if (!File(outputPath).exists()) {
+            Files.createDirectory(Path.of(outputPath))
+        }
+        val file =
+            File("${outputPath}/${camelCaseTableName}${exportClassProperties.queryInterface.suffix}${exportClassProperties.queryInterface.extension}")
         file.writeText(writer.toString())
         writer.close()
     }
@@ -127,10 +178,19 @@ class ColumnService(
         context.put("entityClassName", "${camelCaseTableName}${exportClassProperties.entityClass.suffix}")
 
         val writer = StringWriter()
-        velocityEngine.mergeTemplate(exportClassProperties.repositoryInterface.templatePath, exportClassProperties.repositoryInterface.encoding, context, writer)
+        velocityEngine.mergeTemplate(
+            exportClassProperties.repositoryInterface.templatePath,
+            exportClassProperties.repositoryInterface.encoding,
+            context,
+            writer
+        )
 
         val outputPath = "${springHelperProperties.exportPath}${exportClassProperties.repositoryInterface.exportPath}"
-        val file = File("${outputPath}/${camelCaseTableName}${exportClassProperties.repositoryInterface.suffix}${exportClassProperties.repositoryInterface.extension}")
+        if (!File(outputPath).exists()) {
+            Files.createDirectory(Path.of(outputPath))
+        }
+        val file =
+            File("${outputPath}/${camelCaseTableName}${exportClassProperties.repositoryInterface.suffix}${exportClassProperties.repositoryInterface.extension}")
         file.writeText(writer.toString())
         writer.close()
     }

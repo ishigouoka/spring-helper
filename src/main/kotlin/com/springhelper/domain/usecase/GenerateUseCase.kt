@@ -15,8 +15,6 @@ import org.springframework.stereotype.Component
 class GenerateUseCase(
     val columnQuery: ColumnQuery,
     val columnService: ColumnService,
-    val schemaProperties: SchemaProperties,
-    val dataColumnProperties: DataColumnProperties,
     val springHelperProperties: SpringHelperProperties,
     val velocityEngine: VelocityEngine,
     val logger: Logger
@@ -25,6 +23,8 @@ class GenerateUseCase(
     fun generateComponent(
         dbms: Dbms?
     ) {
+
+        columnService.clearOutputPath()
 
         logger.info("Generate Component DBMS=[{}]", dbms)
 
@@ -71,36 +71,46 @@ class GenerateUseCase(
         }
 
         // generate entity
-        columnsGroupByTableName.forEach { (tableName, columns) ->
-            if (springHelperProperties.isCreateEntity) {
+        if (springHelperProperties.isCreateEntity) {
+            logger.info("Generate Entity START.")
+            columnsGroupByTableName.forEach { (tableName, columns) ->
                 columnService.createEntitiesClass(
                     tableName = tableName,
                     columns = columns,
                     velocityEngine = velocityEngine
                 )
+                logger.info("Generate Entity TABLE=[{}]", tableName)
             }
+            logger.info("Generate Entity END.")
         }
 
         // generate query
-        columnsGroupByTableName.forEach { (tableName, columns) ->
-            if (springHelperProperties.isCreateQuery) {
+        if (springHelperProperties.isCreateQuery) {
+            logger.info("Generate Query START.")
+            columnsGroupByTableName.forEach { (tableName, columns) ->
+
                 columnService.createQueryInterface(
                     tableName = tableName,
                     columns = columns,
                     velocityEngine = velocityEngine
                 )
+                logger.info("Generate Query TABLE=[{}]", tableName)
             }
+            logger.info("Generate Query END.")
         }
 
         // generate repository
-        columnsGroupByTableName.forEach { (tableName, columns) ->
-            if (springHelperProperties.isCreateRepository) {
+        if (springHelperProperties.isCreateRepository) {
+            columnsGroupByTableName.forEach { (tableName, columns) ->
+                logger.info("Generate Repository START.")
                 columnService.createRepositoryInterface(
                     tableName = tableName,
                     columns = columns,
                     velocityEngine = velocityEngine
                 )
+                logger.info("Generate Repository TABLE=[{}]", tableName)
             }
+            logger.info("Generate Repository END.")
         }
     }
 }
